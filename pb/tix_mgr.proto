@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+option go_package = "test.com/traintix/pb";
+
+package pb;
+
+service TixMgr {
+    rpc PurchaseTicket(PurchaseRequest) returns (Receipt) {}
+
+    rpc GetReceiptDetails(User) returns (Receipt) {}
+
+    rpc GetSectionDetails(Section) returns (SectionDetails) {}
+
+    rpc RemoveUser(User) returns (OperationResult) {}
+
+    rpc ModifyUserSeat(ModifyUserSeatRequest) returns (Receipt) {}
+}
+
+message PurchaseRequest {
+    User user = 1;
+
+    string from = 2;
+    
+    string to = 3;
+
+    double price_paid = 4;
+}
+
+message Receipt {
+
+    User user = 1;
+
+    string from = 2;
+
+    string to = 3;
+
+    int32 section_id = 4;
+
+    int32 seat_id = 5;
+
+    float price_paid = 6;
+}
+
+message User {
+    string first_name = 1;
+
+    string last_name = 2;
+
+    string email = 3;
+}
+
+message Seat {
+    int32 seat_id = 1;
+
+    Section section = 2;
+}
+
+message Section {
+    int32 section_id = 1;
+}
+
+message OperationResult {
+    bool result = 1;
+}
+
+message SectionDetails {
+    map<int32, User> seat_map = 1;
+}
+
+message ModifyUserSeatRequest {
+    User user = 1;
+
+    Seat seat = 2;
+}
